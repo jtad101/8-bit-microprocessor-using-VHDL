@@ -1,0 +1,53 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+
+entity INS_DEC is
+	Port(
+		CLK		:	in std_logic;
+		INS_in	:	in std_logic_vector(7 downto 0);
+		LD_ADR1	:	out std_logic_vector(7 downto 0);
+		ADR1_OE	:	out std_logic;
+		ADR2_OE	:	out std_logic;
+		LD_ADR2	:	out std_logic_vector(7 downto 0);
+		LD_ACC	:	out std_logic_vector(7 downto 0);
+		LD_TEMP	:	out std_logic_vector(7 downto 0);
+		ST_ACC1	:	out std_logic_vector(7 downto 0);
+		ST_ACC2	:	out std_logic_vector(7 downto 0);
+		ADD		:	out std_logic_vector(7 downto 0);
+		OP			:	out std_logic_vector(7 downto 0)
+		);
+		
+end INS_DEC;
+
+architecture logic of ins_dec is
+begin
+process(CLK,INS_in)
+	begin
+		if rising_edge(CLK) then
+			case (INS_in) is
+				when "00000001" => 
+										ADR1_OE <= '1';
+										LD_ADR1 <= "1100100"; -- saving values from address '100' onwards in memory
+				when "00000010" =>
+										ADR2_OE <= '1';
+										LD_ADR2 <= "1100101";
+										
+				when "00000011" =>
+										ACC_OE <='1';
+										LD_ACC <='3';
+				when "00000100" =>
+										TEMP_OE <= '1';
+										LD_TEMP <= '3';
+				when "00010100" =>
+										OP <= "00";
+										ACC_OE <='1';
+										TEMP_OE <= '1';
+										
+				when "00000111" =>
+										ACC_OE <='1';
+										ADR1_OE <= '1';
+								
+		end if;
+	end process;
+end logic;

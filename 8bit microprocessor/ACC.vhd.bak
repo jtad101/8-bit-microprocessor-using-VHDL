@@ -1,0 +1,25 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+
+entity ACC is
+	Port(
+		CLK		:	in std_logic;
+		ACC_in	:	in std_logic_vector(7 downto 0);
+		ACC_out	:	out std_logic_vector(7 downto 0);
+		ACC_OE	: 	out std_logic
+		);
+		
+end ACC;
+
+architecture logic of ACC is
+begin
+process(CLK,ACC_in)
+	begin
+		if rising_edge(CLK) then
+			if ACC_OE = '1' then
+				ACC_out <= ACC_in;
+			end if;
+		end if;
+	end process;
+end logic;

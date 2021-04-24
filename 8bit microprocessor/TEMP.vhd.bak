@@ -1,0 +1,25 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+
+entity TEMP is
+	Port(
+		CLK		:	in std_logic;
+		TEMP_in	:	in std_logic_vector(7 downto 0);
+		TEMP_out	:	out std_logic_vector(7 downto 0);
+		TEMP_OE	: 	out std_logic
+		);
+		
+end TMEP;
+
+architecture logic of TEMP is
+begin
+process(CLK,TMEP_in)
+	begin
+		if rising_edge(CLK) then
+			if TEMP_OE = '1' then
+				TEMP_out <= TEMP_in;
+			end if;
+		end if;
+	end process;
+end logic;

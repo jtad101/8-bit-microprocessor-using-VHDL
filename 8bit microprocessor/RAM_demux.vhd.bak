@@ -1,0 +1,39 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity RAM_demux is
+  port(
+    RAM_in		 : in std_logic_vector(7 downto 0);    -- from RAM output                 
+    ADR1_OE		 : in std_logic;
+	 ADR2_OE		 : in std_logic;
+	 INS_OE		 : in std_logic;
+	 ACC_OE		 : in std_logic;
+	 TEMP_OE		 : in std_logic;
+	 DEMUX_out 	 : out std_logic_vector(7 downto 0)   
+  );
+end RAM_demux;
+
+
+architecture logic of RAM_demux is
+
+signal output 	:	std_logic_vector(7 downto 0):
+
+begin
+  process(ADR1_OE,ADR2_OE,ACC_OE,INS_OE,TEMP_OE)
+  begin
+	if (ADR1_OE = '1') then
+      output <= RAM_in;
+   elsif(ADR2_OE='1') then
+      output  <= RAM_in;
+	elsif(ADR2_OE='1') then
+      output  <= RAM_in;
+	elsif(ACC_OE='1') then
+      output  <= RAM_in;
+	elsif(TEMP_OE='1') then
+      output  <= RAM_in;
+	elsif(INS_OE='1') then
+      output  <= RAM_in;		
+   end if;
+  end process;
+DEMUX_out<=output;
+end logic;

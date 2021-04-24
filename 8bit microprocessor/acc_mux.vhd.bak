@@ -1,0 +1,27 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity acc_mux is
+  port(
+    ACC_OE		 : in std_logic;                     
+    TEMP_OE		 : in std_logic;
+	 TEMP   	 : in std_logic_vector(7 downto 0);   
+    ACC   	 : in std_logic_vector(7 downto 0);   
+    MUX_out  : out std_logic_vector(7 downto 0)   
+  );
+end acc_mux;
+
+
+architecture logic of acc_mux is
+
+begin
+  process(ACC_OE,TEMP_OE, TEMP, ACC)
+  begin
+    if (ACC_OE = '1') then
+      MUX_out <= ACC;
+    elsif(TEMP_OE='1') then
+      MUX_out  <= TEMP;
+    end if;
+  end process;
+
+end logic;

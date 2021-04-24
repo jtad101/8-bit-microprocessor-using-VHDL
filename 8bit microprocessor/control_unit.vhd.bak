@@ -1,0 +1,58 @@
+ LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+
+entity control_unit is
+	
+	PORT(
+		CLK			:	in		std_logic;       
+		ACC_OE		: 	in 	std_logic;
+		ADR1_OE		:	in 	std_logic;
+		ADR2_OE		:	in 	std_logic;					
+		TEMP_OE		:	in 	std_logic;
+		LD_ADR1		:	in		std_logic_vector(7 downto 0);
+		LD_ADR2		:	in		std_logic_vector(7 downto 0);
+		LD_ACC		:	in		std_logic_vector(7 downto 0);
+		LD_TEMP		:	in		std_logic_vector(7 downto 0);
+		
+		ACC_out		: out	std_logic_vector(7 downto 0);
+		TEMP_out		: out	std_logic_vector(7 downto 0);	
+		ADR1_out		: out	std_logic_vector(7 downto 0);
+		ADR2_out		: out	std_logic_vector(7 downto 0)
+		);
+end control_unit;
+
+ARCHITECTURE logic OF control_unit is
+	type states is (FETCH,EXECUTE);
+	signal state : states;
+	
+begin
+process(CLK,ACC_OE,ADR1_OE,ADR2_OE,LD_ADR1,LD_ADR2,LD_ACC,_LD_TEMP)
+begin
+	if rising_edge(CLK) then 
+		case state is
+			when FETCH =>	
+							if ACC_OE='1' then
+								ACC_out<=LD_ACC;
+							elsif ADR1_OE='1' then
+								ADR1_out<=LD_ADR1;
+							end if;
+							if ADR2_OE='1' then
+								ADR2_out<=LD_ADR2;
+							end if;
+							if TEMP_OE='1' then
+								TEMP_out<=LD_TEMP;
+							end if;	
+			when EXECUTE =>	
+		end case;
+	end if;
+end process;
+
+process(state)
+begin
+	case state is
+		when FETCH => 	run<=	"101";
+		when EXECUTE => 	run<=	"001";
+	end case;	
+end process;
+end logic;

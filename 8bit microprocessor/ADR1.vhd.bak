@@ -1,0 +1,25 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+
+entity ADR1 is
+	Port(
+		CLK		:	in std_logic;
+		ADR_in	:	in std_logic_vector(7 downto 0);
+		ADR_out	:	out std_logic_vector(7 downto 0);
+		ADR_OE 	: 	out std_logic
+		);
+		
+end ADR1;
+
+architecture logic of ADR1 is
+begin
+process(CLK,ADR_in)
+	begin
+		if rising_edge(CLK) then
+			if ADR_OE='1' then
+				ADR_out <= ADR_in;
+			end if;
+		end if;
+	end process;
+end logic;

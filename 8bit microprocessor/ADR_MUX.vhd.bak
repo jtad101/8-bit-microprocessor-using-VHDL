@@ -1,0 +1,30 @@
+library ieee.
+use ieee.std_logic_1164.all
+use ieee.std_logic_unsigned.all
+
+entity ADR_MUX is
+	Port (
+		PC_in		:	in	std_logic_vector(7 downto 0);		--sel:00
+		ADR1_in	:	in	std_logic_vector(7 downto 0);		--sel:01
+		ADR2_in	:	in std_logic_vector(7 downto 0);		--sel:10
+		sel		:	in std_logic_vector(1 downto 0);
+		MUX_out	:	out	std_logic_vector(7 downto 0)
+		);
+		
+end ADR_MUIX;
+
+architecture logic of ADR_MUX is
+
+signal ADR	:	std_logic_vector(7 downto 0);
+
+begin
+process(PC_in,ADR1_in,ADR2_in)
+	begin
+		case sel is 
+			when sel="00" =>	ADR <= PC_in;
+			when sel="01" =>	ADR <= ADR1_in
+			when sel="10" =>	ADR <= ADR2_in
+			when others	  =>
+		end case;
+end process;
+end logic;		

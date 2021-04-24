@@ -1,0 +1,49 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.numeric_std.all;
+
+entity ALU is
+   Port (
+	A_in 				: 	in	 std_logic_vector(7 downto 0);  -- 8 bits input
+   B_in				:	in  std_logic_vector(7 downto 0);
+	OP	 				: 	in	 STD_LOGIC_VECTOR(1 downto 0);  -- 2 bits input for selecting function
+	A_out				:	out STD_LOGIC_VECTOR(7 downto 0); -- 8 bits output 
+	stat				: 	out std_logic_vector(1 downto 0)
+	);
+end ALU; 
+
+architecture unit of ALU is 
+
+signal Result 	: std_logic_vector (7 downto 0);
+signal tmp		: std_logic_vector(8 downto 0);
+begin
+process(A_in,B_in,OP)
+	variable flag : std_logic;
+ begin
+  case(OP) is
+  
+  when "00" =>					 -- Addition
+					tmp <= std_logic_vector(signed(A_in(7) & A_in) + signed(B_in(7) & B_in));
+					Result <= tmp(7 downto 0);
+					flag := tmp(8);
+					stat(1) <= Result(7) xor A_in(7) xor B_in(7) xor flag;
+	
+  when "01" => 				-- Subtraction
+					tmp <= std_logic_vector(signed(A_in(7) & A_in) - signed(B_in(7) & B_in));
+					Result <= tmp(7 downto 0);
+					flag := tmp(8);
+					stat(1) <= Result(7) xor A_in(7) xor B_in(7) xor flag;
+	
+  when "10" => Result <= A_in and B_in;  -- Logical AND
+	
+  when "11" => Result <= A_in or B_in;  -- Logical OR
+	
+  when others => Result <= A_in; 
+  
+end case;
+  
+A_out <= Result; 	-- ALU out
+stat(0) <= '1' when Result="00000000" else '0';	    --Zero flag
+end process;
+
+end unit;

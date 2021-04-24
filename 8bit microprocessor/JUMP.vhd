@@ -1,0 +1,26 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+
+entity JUMP is
+	Port(
+		CLK		:	in std_logic;
+		JUMP_in	:	in std_logic_vector(7 downto 0);
+		JUMP_out	:	out std_logic_vector(7 downto 0);
+		JUMP_OE	: 	in std_logic
+		);
+		
+end JUMP;
+
+architecture logic of JUMP is
+begin
+process(CLK,JUMP_in)
+	begin
+		if rising_edge(CLK) then
+			if JUMP_OE = '1' then
+				JUMP_out <= ;
+				
+			end if;
+		end if;
+	end process;
+end logic;
